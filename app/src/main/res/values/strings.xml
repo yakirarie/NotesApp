@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">פתקים ומשימות</string>
+    <string name="title_activity_full_text">Note Description</string>
+    <string name="large_text" />
+    <string name="action_settings">Settings</string>
+    <string name="note_title">כותרת</string>
+    <string name="note_description">תיאור</string>
+    <string name="save">Save</string>
+    <string name="delete">delete</string>
+    <string name="edit">edit</string>
+    <string name="note_splash">note_splash</string>
+    <string name="notes_app">ארגון משימות</string>
+    <string name="check">check</string>
+    <string name="done">בוצע?</string>
+    <string name="filter_done">משימות שבוצעו</string>
+    <string name="filter_not_done">משימות שלא בוצעו</string>
+    <string name="all">כל המשימות</string>
+</resources>
