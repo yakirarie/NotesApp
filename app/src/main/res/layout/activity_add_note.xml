@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".AddAndEditNoteActivity"
     android:fillViewport="true"
-    android:background="@color/colorBackground">
+   >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:alpha="0.6"
-            android:buttonTint="#4D3681"
+            android:buttonTint="@color/colorAccent"
             android:checked="false"
             android:textAllCaps="true"
             android:textStyle="bold"
