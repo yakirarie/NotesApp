@@ -7,13 +7,16 @@
     android:layout_margin="7dp"
     android:elevation="3dp"
     app:cardCornerRadius="6dp"
+    app:cardBackgroundColor="@color/colorPrimary"
     >
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:layout_margin="4.5dp">
 
         <TextView
             android:id="@+id/textViewNoteName"
@@ -28,6 +31,11 @@
             android:textSize="40sp"
             android:textStyle="bold" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4.5dp"
+            android:background="@color/colorPrimary" />
+
         <TextView
             android:id="@+id/textViewNoteDate"
             android:layout_width="match_parent"
@@ -37,7 +45,21 @@
             android:fontFamily="cursive"
             android:gravity="center"
             android:text="TextView"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4.5dp"
+            android:background="@color/colorPrimary" />
+
+        <ImageView
+            android:id="@+id/imageViewComplete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_launcher_background" />
+
     </LinearLayout>
+
+
 </androidx.cardview.widget.CardView>

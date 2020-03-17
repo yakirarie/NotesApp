@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -14,11 +15,15 @@ class NotesAdapter(val context:Context, val notes:List<Note>, val onItemClick:(I
 
         val note_date = itemView.findViewById<TextView>(R.id.textViewNoteDate)
         val note_title = itemView.findViewById<TextView>(R.id.textViewNoteName)
+        val note_done = itemView.findViewById<ImageView>(R.id.imageViewComplete)
+
 
         fun bindData(note:Note, context: Context){
             note_date.text = note.date
             note_title.text = note.title
-            itemView.setBackgroundResource(if (note.done) R.color.colorDone else R.color.colorOngoing)
+            note_done.setBackgroundResource(if (note.done) R.color.colorDone else R.color.colorOngoing)
+            note_done.setImageResource(if (note.done) R.drawable.ic_save_white_24dp else R.drawable.ic_clear_white_24dp)
+
 
             itemView.setOnClickListener {
                 onItemClick(note.id)
