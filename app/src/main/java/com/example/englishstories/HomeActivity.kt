@@ -12,9 +12,9 @@ import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
 
-    var db: SQLiteDatabase? = null
-    var cursor: Cursor? = null
-    var noteAdapter: NotesAdapter? = null
+    lateinit var db: SQLiteDatabase
+    lateinit var cursor: Cursor
+    lateinit var noteAdapter: NotesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +29,9 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item!!.itemId == R.id.done_notes) {
-            cursor = db!!.query(
+            cursor = db.query(
                 "NOTES",
-                arrayOf("_id", "title", "description", "date", "done"),
+                arrayOf("_id", "title", "date", "done"),
                 "done=?",
                 arrayOf("1"),
                 null,
@@ -43,9 +43,9 @@ class HomeActivity : AppCompatActivity() {
         }
 
         if (item.itemId == R.id.not_done_notes) {
-            cursor = db!!.query(
+            cursor = db.query(
                 "NOTES",
-                arrayOf("_id", "title", "description", "date", "done"),
+                arrayOf("_id", "title", "date", "done"),
                 "done=?",
                 arrayOf("0"),
                 null,
@@ -58,9 +58,9 @@ class HomeActivity : AppCompatActivity() {
         }
 
         if (item.itemId == R.id.all_notes) {
-            cursor = db!!.query(
+            cursor = db.query(
                 "NOTES",
-                arrayOf("_id", "title", "description", "date", "done"),
+                arrayOf("_id", "title", "date", "done"),
                 null,
                 null,
                 null,
@@ -77,15 +77,14 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun populateRecyclerView() {
-        var listOfNotes = mutableListOf<Note>()
-        while (cursor!!.moveToNext()) {
-            val noteId = cursor!!.getInt(0)
-            val noteTitle = cursor!!.getString(1)
-            val noteDescription = cursor!!.getString(2)
-            val noteDate = cursor!!.getString(3)
-            val noteDone = cursor!!.getInt(4)
+        val listOfNotes = mutableListOf<Note>()
+        while (cursor.moveToNext()) {
+            val noteId = cursor.getInt(0)
+            val noteTitle = cursor.getString(1)
+            val noteDate = cursor.getString(2)
+            val noteDone = cursor.getInt(3)
 
-            val note = Note(noteId, noteDate, noteTitle, noteDescription, noteDone != 0)
+            val note = Note(noteId, noteDate, noteTitle, noteDone != 0)
             listOfNotes.add(note)
 
         }
@@ -109,8 +108,8 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        cursor!!.close()
-        db!!.close()
+        cursor.close()
+        db.close()
 
     }
 
@@ -119,9 +118,9 @@ class HomeActivity : AppCompatActivity() {
 
         val objToCreateDB = NoteSQLiteOpenHelper(this)
         db = objToCreateDB.readableDatabase
-        cursor = db!!.query(
+        cursor = db.query(
             "NOTES",
-            arrayOf("_id", "title", "description", "date", "done"),
+            arrayOf("_id", "title", "date", "done"),
             null,
             null,
             null,

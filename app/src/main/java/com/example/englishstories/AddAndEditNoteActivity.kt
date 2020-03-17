@@ -18,10 +18,10 @@ import java.util.*
 
 class AddAndEditNoteActivity : AppCompatActivity() {
 
-    var dbWrite: SQLiteDatabase? = null
-    var dbRead: SQLiteDatabase? = null
-    var cursor: Cursor? = null
-    var noteId: String? = null
+    lateinit var dbWrite: SQLiteDatabase
+    lateinit var dbRead: SQLiteDatabase
+    private var cursor: Cursor? = null
+    private var noteId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,9 +31,9 @@ class AddAndEditNoteActivity : AppCompatActivity() {
         dbWrite = notesDataBase.writableDatabase
         dbRead = notesDataBase.readableDatabase
 
-        noteId = intent?.extras?.get("NOTE_ID")?.toString()
+        noteId = intent.extras?.get("NOTE_ID")?.toString()
         if (noteId != null) {
-            cursor = dbRead!!.query(
+            cursor = dbRead.query(
                 "NOTES",
                 arrayOf("title", "description", "done"),
                 "_id=?",
@@ -69,30 +69,24 @@ class AddAndEditNoteActivity : AppCompatActivity() {
                 if (editTextNoteDescription.text.isEmpty()) "אין תיאור" else editTextNoteDescription.text.toString()
             )
             newNoteValues.put("DATE", getDate())
-            newNoteValues.put("DONE", if(checkBoxTaskFinished.isChecked) 1 else 0)
+            newNoteValues.put("DONE", if (checkBoxTaskFinished.isChecked) 1 else 0)
 
 
             if (noteId != null) {
 
-                dbWrite!!.update("NOTES", newNoteValues, "_id=?", arrayOf(noteId))
+                dbWrite.update("NOTES", newNoteValues, "_id=?", arrayOf(noteId))
                 Toast.makeText(this, "עודכן בהצלחה!", Toast.LENGTH_LONG).show()
 
             } else {
 
-
-                dbWrite!!.insert("NOTES", null, newNoteValues)
+                dbWrite.insert("NOTES", null, newNoteValues)
                 Toast.makeText(this, "נוסף בהצלחה!", Toast.LENGTH_LONG).show()
                 editTextNoteTitle.setText("")
                 editTextNoteDescription.setText("")
                 checkBoxTaskFinished.isChecked = false
                 editTextNoteTitle.requestFocus()
 
-
-
             }
-
-
-
 
         }
         return super.onOptionsItemSelected(item)
@@ -106,20 +100,21 @@ class AddAndEditNoteActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        dbWrite!!.close()
-        dbRead!!.close()
+        dbWrite.close()
+        dbRead.close()
+        cursor?.close()
     }
 
-    fun getDate():String{
-        val answer:String
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    private fun getDate(): String {
+        val answer: String
+        answer = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val current = LocalDateTime.now()
             val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-            answer =  current.format(formatter)
+            current.format(formatter)
         } else {
-            var date = Date();
+            val date = Date();
             val formatter = SimpleDateFormat("MMM dd yyyy")
-            answer = formatter.format(date)
+            formatter.format(date)
         }
         return answer
     }

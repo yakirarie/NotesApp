@@ -14,9 +14,9 @@ import kotlinx.android.synthetic.main.content_full_text.*
 
 class ViewNoteActivity : AppCompatActivity() {
 
-    var db: SQLiteDatabase? = null
-    var cursor: Cursor? = null
-    var noteId: String? = null
+    lateinit var db: SQLiteDatabase
+    lateinit var cursor: Cursor
+    lateinit var noteId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +27,7 @@ class ViewNoteActivity : AppCompatActivity() {
 
         db = notesDatabase.readableDatabase
 
-        cursor = db!!.query(
+        cursor = db.query(
             "NOTES",
             arrayOf("title", "description", "date", "done"),
             "_id=?",
@@ -37,10 +37,13 @@ class ViewNoteActivity : AppCompatActivity() {
             null
         )
 
-        if (cursor!!.moveToFirst()) {
-            val taskStatus = if(cursor!!.getInt(3) != 0) "הושלם!" else "בטיפול..."
-            title =cursor!!.getString(0)
-            textViewStoryFullText.text ="עדכון אחרון - ${cursor!!.getString(2)}\n\nסטטוס - $taskStatus\n\n ${cursor!!.getString(1)}"
+        if (cursor.moveToFirst()) {
+            val taskStatus = if (cursor.getInt(3) != 0) "הושלם!" else "בטיפול..."
+            title = cursor.getString(0)
+            textViewStoryFullText.text =
+                "עדכון אחרון - ${cursor.getString(2)}\n\nסטטוס - $taskStatus\n\n ${cursor.getString(
+                    1
+                )}"
 
         }
 
@@ -55,7 +58,7 @@ class ViewNoteActivity : AppCompatActivity() {
                 .setMessage("האם אתה בטוח שאתה רוצה למחוק את \"$title\"?")
 
                 .setPositiveButton("כן") { dialogInterface, i ->
-                    db!!.delete("NOTES", "_id=?", arrayOf(noteId))
+                    db.delete("NOTES", "_id=?", arrayOf(noteId))
                     Toast.makeText(this, "נמחק בהצלחה!", Toast.LENGTH_LONG).show()
                     finish()
                 }
@@ -90,6 +93,7 @@ class ViewNoteActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        db!!.close()
+        cursor.close()
+        db.close()
     }
 }
